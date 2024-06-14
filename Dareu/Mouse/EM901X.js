@@ -5,7 +5,6 @@ export function Publisher() { return "mateusmarquessz"; }
 export function Size() { return [1,1]; }
 export function DefaultPosition(){return [10, 100]; }
 export function DefaultScale(){return 8.0}
-
 export function ControllableParameters() {
 	return [
 		{"property":"shutdownColor", "group":"lighting", "label":"Shutdown Color", "min":"0", "max":"360", "type":"color", "default":"009bde"},
@@ -33,20 +32,28 @@ export function Render() {
 
 }
 
-export function Shutdown() {
-
+export function Shutdown(SystemSuspending) {
+    if (SystemSuspending) {
+        sendColors("#000000"); // Apaga as luzes ao suspender/sleep
+    } else {
+        // Não faz nada. Mouse reverte para o modo hardware quando o streaming é interrompido.
+    }
 }
 
-function hexToRgb(hex) {
-	let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-	let colors = [];
-	colors[0] = parseInt(result[1], 16);
-	colors[1] = parseInt(result[2], 16);
-	colors[2] = parseInt(result[3], 16);
+//-------
 
-	return colors;
+function sendColors(shutdown = false)
+{
+  let packet = [];
 }
 
+
+
+
+
+
+
+//-------------
 export function Validate(endpoint) {
 	return endpoint.interface === 0 && endpoint.usage === 0 && endpoint.usage_page === 0;
 }
