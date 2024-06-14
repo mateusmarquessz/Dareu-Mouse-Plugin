@@ -59,5 +59,5 @@ export function Validate(endpoint) {
 }
 
 export function Image() {
-	return "";
+	return "https://dareu.com/cdn/shop/files/0002_EM901X.png?v=1714725254&width=1920";
 }
