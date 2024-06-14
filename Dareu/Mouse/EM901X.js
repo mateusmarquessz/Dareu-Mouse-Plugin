@@ -33,16 +33,17 @@ export function Render() {
 }
 //-------
 
+
+
 function sendColors(shutdown = false)
 {
   let packet = [];
+  packet [1] = 0x00;
+  packet [2] = 0x08;
+  packet [3] = 0x07;
+  packet [4] = 0x00;
+  packet [5] = 0x00;
 }
-
-
-
-
-
-
 
 //-------------
 export function Validate(endpoint) {
