@@ -35,15 +35,54 @@ export function Render() {
 
 
 
-function sendColors(shutdown = false)
-{
-  let packet = [];
-  packet [1] = 0x00;
-  packet [2] = 0x08;
-  packet [3] = 0x07;
-  packet [4] = 0x00;
-  packet [5] = 0x00;
-}
+function sendColors(shutdown = false) {
+	let packet = new Array(32).fill(0); // Inicializa um array de 32 bytes com zeros
+	packet[1] = 0x00;
+	packet[2] = 0x08;
+	packet[3] = 0x07;
+	packet[4] = 0x00;
+	packet[5] = 0x00;
+  
+	let zoneId = [2, 4, 5, 1, 3]; // IDs das zonas
+  
+	for (let zone_idx = 0; zone_idx < zoneId.length; zone_idx++) {
+	  let iX = vLedPositions[zone_idx][0];
+	  let iY = vLedPositions[zone_idx][1];
+	  var col;
+  
+	  if (shutdown) {
+		col = hexToRgb(shutdownColor);
+	  } else if (LightingMode === "Forced") {
+		col = hexToRgb(forcedColor);
+	  } else {
+		col = device.color(iX, iY);
+	  }
+  
+	  // Calcula o deslocamento para cada zona
+	  let baseOffset = 5 + (zone_idx * 4);
+	  packet[baseOffset + 0] = zoneId[zone_idx]; // ID da zona
+	  packet[baseOffset + 1] = col[0]; // Componente R
+	  packet[baseOffset + 2] = col[1]; // Componente G
+	  packet[baseOffset + 3] = col[2]; // Componente B
+	}
+  
+	device.write(packet, 120);
+  }
+  
+  // Função auxiliar para converter hexadecimal para RGB
+  function hexToRgb(hex) {
+	// Remove o símbolo '#' se presente
+	hex = hex.replace(/^#/, '');
+	
+	// Converte valores hexadecimais para decimal
+	let bigint = parseInt(hex, 16);
+	let r = (bigint >> 16) & 255;
+	let g = (bigint >> 8) & 255;
+	let b = bigint & 255;
+	
+	return [r, g, b];
+  }
+  
 
 //-------------
 export function Validate(endpoint) {
