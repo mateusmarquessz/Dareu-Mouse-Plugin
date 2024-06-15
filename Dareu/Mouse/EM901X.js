@@ -36,12 +36,23 @@ export function Render() {
 
 
 function sendColors(shutdown = false) {
-	let packet = new Array(32).fill(0); // Inicializa um array de 32 bytes com zeros
+	let packet = new Array(64).fill(0); // Inicializa um array de 64 bytes com zeros
+	packet[0] = 0x1c;
 	packet[1] = 0x00;
-	packet[2] = 0x08;
-	packet[3] = 0x07;
-	packet[4] = 0x00;
-	packet[5] = 0x00;
+	packet[2] = 0x80;
+	packet[3] = 0x69;
+	packet[4] = 0xec;
+	packet[5] = 0x41;
+	packet[6] = 0x02;
+	packet[7] = 0xbf;
+	packet[8] = 0xff;
+	packet[9] = 0xff;
+	packet[10] = 0x00;
+	packet[11] = 0x00;
+	packet[12] = 0x00;
+	packet[13] = 0x00;
+	packet[14] = 0x1b;
+	packet[15] = 0x00;
   
 	let zoneId = [2, 4, 5, 1, 3]; // IDs das zonas
   
